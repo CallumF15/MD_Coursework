@@ -12,11 +12,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Callum on 27/11/2015.
  */
-public class ParserRSS extends AsyncTask<String, Void, Long> {
+public class ParserRSS extends AsyncTask<String, Void, List<String>> {
 
     //Variables
     private String title = "title";
@@ -24,12 +26,13 @@ public class ParserRSS extends AsyncTask<String, Void, Long> {
     private String description = "description";
     private String urlSite;
 
-    //Getters & Setters
-    public String getUrlSite() {
-        return urlSite;
+    public List<String> stringList;
+
+    public List<String> getStringList() {
+        return stringList;
     }
-    public void setUrlSite(String urlSite) {
-        this.urlSite = urlSite;
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
     }
 
     //Constructor
@@ -43,10 +46,11 @@ public class ParserRSS extends AsyncTask<String, Void, Long> {
         //display progress dialog.
     }
 
-    protected Long doInBackground(String... urls) {
+    protected List<String> doInBackground(String... urls) {
         fetchXML();
+        setStringList(stringList);
 
-        return null;
+        return stringList;
     }
 
     protected void onPostExecute(Void result) {
@@ -57,6 +61,7 @@ public class ParserRSS extends AsyncTask<String, Void, Long> {
 
         String text = null;
         boolean isTrue = false;
+        stringList = new ArrayList<String>();
 
         try {
 
@@ -88,13 +93,13 @@ public class ParserRSS extends AsyncTask<String, Void, Long> {
 
                             if (name.equalsIgnoreCase("title")) {
                                 title = myParser.nextText();
-                                System.out.println("title: " + title + "\n");
+                                stringList.add(title);
                             } else if (name.equalsIgnoreCase("link")) {
                                 link = myParser.nextText();
-                                System.out.println("link: " + link  + "\n");
+                                stringList.add(link);
                             } else if (name.equalsIgnoreCase("description")) {
                                 description = myParser.nextText();
-                                System.out.println("description: " + description + "\n");
+                                stringList.add(description);
                             }
                         break;
 
