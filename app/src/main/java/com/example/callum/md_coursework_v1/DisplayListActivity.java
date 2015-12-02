@@ -3,6 +3,7 @@ package com.example.callum.md_coursework_v1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,8 +42,6 @@ public class DisplayListActivity extends Activity {
         descArray = new ArrayList<String>();
         linkArray = new ArrayList<String>();
 
-        getDataFromDatabase();
-
         //get array data
         try {
             stringArray = parserRSS.execute().get();
@@ -73,6 +72,13 @@ public class DisplayListActivity extends Activity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
     //Item Selected from ListView is checked and the appropriate url is assigned
     //Retrieve the information
     public String AssignAppropriateURL(String selectedItem) {
@@ -87,15 +93,12 @@ public class DisplayListActivity extends Activity {
                 selection = "articles.rss";
                 isTrue = true;
                 break;
-
             case "U.S.":
                 selection = "ushome";
                 break;
-
             case "Australia":
                 selection = "auhome";
                 break;
-
             case "TV and Showbiz":
                 selection = "tvshowbiz";
                 break;
@@ -103,26 +106,20 @@ public class DisplayListActivity extends Activity {
                 selection = "sciencetech";
                 break;
             case "Video":
-                selection = "video" + "/video.rss";
+                selection = "video/videos.rss";
+                isTrue = true;
                 break;
-
             default:
+                selection = selectedItem;
                 break;
-
         }
 
-        if(isTrue) {
+        if (isTrue) {
             urlSite = "http://www.dailymail.co.uk/" + selection;
-        }else{
+        } else {
             urlSite = "http://www.dailymail.co.uk/" + selection + "/index.rss";
         }
 
         return urlSite;
-    }
-
-    public void getDataFromDatabase(){
-        QueryDatabase queryDatabase = new QueryDatabase(this);
-        List<NewSubject> list = new ArrayList<NewSubject>();
-        list = queryDatabase.getAllSubjects();
     }
 }
