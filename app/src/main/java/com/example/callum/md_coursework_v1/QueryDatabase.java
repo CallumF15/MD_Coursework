@@ -36,11 +36,13 @@ public class QueryDatabase extends SQLiteOpenHelper {
     //Getters & Setters
 
     //Constructor
-    public QueryDatabase(Context context){
-        super(context, DB_NAME, null, DB_VERSION);
+    public QueryDatabase(Context context, String name, SQLiteDatabase.CursorFactory
+            factory, int version){
+        super(context, name, factory, version);
 
         this.appContext = context;
     }
+
 
     //Methods
     @Override
@@ -134,11 +136,9 @@ public class QueryDatabase extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + COL_TABLE_NAME;
 
         try {
-
             createDatabase();
-            copyDatabaseFromAssets();
 
-            SQLiteDatabase db = this.getWritableDatabase();
+            SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
 
             // looping through all rows and adding to list
@@ -155,7 +155,7 @@ public class QueryDatabase extends SQLiteOpenHelper {
             Log.e("CursorException", "Error getting data");
         }
 
-        // return contact list
+        // return subject list
         return subjectList;
     }
 }
