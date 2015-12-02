@@ -6,10 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class DisplayListActivity extends Activity {
+
+    List<String> stringArray, titleArray, descArray, linkArray;
+    String title = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +31,33 @@ public class DisplayListActivity extends Activity {
         String getItemSelected = intent.getStringExtra("ItemSelected");
 
         //Check Item Selected & Assign appropriate URL
-        new ParserRSS(AssignAppropriateURL(getItemSelected)).execute();
+        ParserRSS parserRSS = new ParserRSS(AssignAppropriateURL(getItemSelected));
+        //set number of data to parse/display
+        parserRSS.setLimit(20);
 
-        //Get XML data and put into ArrayAdapter
+        //initialize arrays
+        stringArray = new ArrayList<String>();
+        titleArray = new ArrayList<String>();
+        descArray = new ArrayList<String>();
+        linkArray = new ArrayList<String>();
 
+        getDataFromDatabase();
+
+        //get array data
+        try {
+            stringArray = parserRSS.execute().get();
+        }catch(Exception e){}
+
+        //Separate the XML data to only get Title text
+        for(int i = 0; i < stringArray.size(); i+= 3){
+            title = stringArray.get(i);
+            titleArray.add(title);
+        }
 
         final ListView topicsListView = (ListView) findViewById(R.id.topicsListView);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.RSS_Subjects, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, titleArray);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -91,5 +118,11 @@ public class DisplayListActivity extends Activity {
         }
 
         return urlSite;
+    }
+
+    public void getDataFromDatabase(){
+        QueryDatabase queryDatabase = new QueryDatabase(this);
+        List<NewSubject> list = new ArrayList<NewSubject>();
+        list = queryDatabase.getAllSubjects();
     }
 }
