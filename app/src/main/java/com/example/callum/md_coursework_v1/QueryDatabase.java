@@ -21,7 +21,6 @@ import java.util.Locale;
 public class QueryDatabase extends SQLiteOpenHelper {
 
     //Variables
-    private static final String NEWS_TABLE = "products";
     private static final String DB_NAME = "NewsSubjects.s3db";
     private static final int DB_VERSION = 1;
     private String path;
