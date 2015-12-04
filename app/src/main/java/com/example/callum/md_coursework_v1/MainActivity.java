@@ -1,22 +1,24 @@
 package com.example.callum.md_coursework_v1;
 
+
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
     List<String> listNewSubject;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         subjectListView.setAdapter(adapter);
+
+        fragmentManager = this.getSupportFragmentManager();
 
         //Setup click event
         subjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,5 +62,25 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.map:
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.about:
+                DialogFragment dialogFragment = new MainAboutDialogue();
+                dialogFragment.show(fragmentManager, "");
+                return true;
+            case R.id.quit:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
