@@ -8,6 +8,10 @@
         android:title="about"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/map"
+        android:title="Map"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/quit"
         android:title="Quit" />
 
