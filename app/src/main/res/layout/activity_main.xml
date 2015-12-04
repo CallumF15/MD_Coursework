@@ -5,40 +5,27 @@
     android:layout_height="match_parent"
     tools:context="com.example.callum.md_coursework_v1.MainActivity">
 
-
     <LinearLayout
         android:id="@+id/layout_top"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#7c7dc0"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_alignParentEnd="true">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello and Welcome to the APP!" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/select_category"
+            android:id="@+id/textView"
+            android:textSize="20sp" />
 
-    </LinearLayout>  <!-- layout at the top of the page -->
+    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_centre"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:background="#7c7dc0"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/layout_top"> <!-- moves layout underneath the top layout -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test centre of page" />
-
-    </LinearLayout> <!-- layout at the centre of the page -->
 
     <LinearLayout
         android:id="@+id/layout_bottom"
@@ -49,7 +36,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_below="@+id/layout_centre"> <!-- moves layout underneath the centre layout -->
+        android:layout_below="@+id/layout_top">
 
         <ListView
             android:layout_width="match_parent"

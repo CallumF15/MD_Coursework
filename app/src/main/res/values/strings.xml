@@ -1,6 +1,8 @@
 <resources>
 
     <string name="app_name">App Name</string>
+    <string name="select_category">Select your preferred News Category below:</string>
+    <string name="top_news_topic"><![CDATA[News Feed <Topic>]]></string>
 
 
     <string-array name="RSS_Subjects">

@@ -10,15 +10,17 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 /**
  * Created by Callum on 27/11/2015.
  */
-public class ParserRSS extends AsyncTask<String, Void, List<String>> {
+public class ParserRSS extends AsyncTask<String, Void, List<String>>{
 
     //Variables
     private String title = "title";
@@ -26,21 +28,24 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
     private String description = "description";
     private String urlSite;
 
+    public int limit;
+
     public List<String> stringList;
 
-    public List<String> getStringList() {
-        return stringList;
+    //Getters & Setters
+    public int getLimit() {
+        return limit;
     }
-    public void setStringList(List<String> stringList) {
-        this.stringList = stringList;
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     //Constructor
-    public ParserRSS(String URL){
+    public ParserRSS(String URL) {
         this.urlSite = URL;
     }
 
-    //methods
+    //Methods
 
     protected void onPreExecute() {
         //display progress dialog.
@@ -48,7 +53,7 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
 
     protected List<String> doInBackground(String... urls) {
         fetchXML();
-        setStringList(stringList);
+        //setStringList(stringList);
 
         return stringList;
     }
@@ -57,10 +62,11 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
         // dismiss progress dialog and update ui
     }
 
-    public void parseXML(XmlPullParser myParser)  {
+    public void parseXML(XmlPullParser myParser) {
 
         String text = null;
         boolean isTrue = false;
+        int counter = 0;
         stringList = new ArrayList<String>();
 
         try {
@@ -72,7 +78,7 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
 
                 String name = myParser.getName();
 
-                switch(eventType) {
+                switch (eventType) {
                     case XmlPullParser.START_TAG:
                         if (name.equals("item")) {
                             isTrue = true;
@@ -83,7 +89,7 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
             }
 
             //when "item" tag is found, the relevant tag information will be parsed
-            while (eventType != XmlPullParser.END_DOCUMENT && isTrue) {
+            while (eventType != XmlPullParser.END_DOCUMENT && isTrue && counter < limit) {
 
                 String name = myParser.getName();
 
@@ -91,16 +97,17 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
 
                     case XmlPullParser.START_TAG:
 
-                            if (name.equalsIgnoreCase("title")) {
-                                title = myParser.nextText();
-                                stringList.add(title);
-                            } else if (name.equalsIgnoreCase("link")) {
-                                link = myParser.nextText();
-                                stringList.add(link);
-                            } else if (name.equalsIgnoreCase("description")) {
-                                description = myParser.nextText();
-                                stringList.add(description);
-                            }
+                        if (name.equalsIgnoreCase("title")) {
+                            title = myParser.nextText();
+                            stringList.add(title);
+                            counter += 1;
+                        } else if (name.equalsIgnoreCase("link")) {
+                            link = myParser.nextText();
+                            stringList.add(link);
+                        } else if (name.equalsIgnoreCase("description")) {
+                            description = myParser.nextText();
+                            stringList.add(description);
+                        }
                         break;
 
                     case XmlPullParser.END_TAG:
@@ -113,9 +120,9 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
                 eventType = myParser.next();
             }
 
-        }catch(XmlPullParserException parseError){
+        } catch (XmlPullParserException parseError) {
             Log.e("MyTag", "Parsing Error" + parseError.toString());
-        }catch(IOException ioError){
+        } catch (IOException ioError) {
             Log.e("MyTag", "IO error during passing" + ioError.toString());
         }
     }
@@ -138,7 +145,6 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
             conn.connect();
             InputStream stream = conn.getInputStream();
 
-
             XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
             xmlFactoryObject.setNamespaceAware(true);
 
@@ -153,5 +159,9 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>> {
         } catch (Exception e) {
             Log.e("myTag", e.toString());
         }
+    }
+
+    public void blah() {
+
     }
 }

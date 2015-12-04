@@ -2,14 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/new_game"
+
+    <item android:id="@+id/about"
         android:icon="@drawable/ic_action_about"
         android:title="about"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
-    <item android:id="@+id/help"
-        android:icon="@drawable/ic_action_cancel"
-        android:title="cancel"
-        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/quit"
+        android:title="Quit" />
 
 </menu>

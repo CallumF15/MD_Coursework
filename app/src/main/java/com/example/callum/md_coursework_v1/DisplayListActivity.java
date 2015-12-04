@@ -3,12 +3,14 @@ package com.example.callum.md_coursework_v1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,20 +18,28 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class DisplayListActivity extends Activity {
+public class DisplayListActivity extends AppCompatActivity {
 
     List<String> stringArray, titleArray, descArray, linkArray;
     String title = null;
+
+    TextView newsFeedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list);
 
+
+
         //get other activity data
         Intent intent = getIntent();
         //retrieve selection data from intent
         String getItemSelected = intent.getStringExtra("ItemSelected");
+
+        newsFeedText = (TextView)findViewById(R.id.NewsFeedText);
+        newsFeedText.setText("News Feed " + getItemSelected );
+
 
         //Check Item Selected & Assign appropriate URL
         ParserRSS parserRSS = new ParserRSS(AssignAppropriateURL(getItemSelected));
