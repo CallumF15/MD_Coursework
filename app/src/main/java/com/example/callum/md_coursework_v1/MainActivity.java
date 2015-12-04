@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 dialogFragment.show(fragmentManager, "");
                 return true;
             case R.id.quit:
-
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
