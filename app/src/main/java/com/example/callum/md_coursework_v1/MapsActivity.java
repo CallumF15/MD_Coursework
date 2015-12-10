@@ -1,14 +1,21 @@
 package com.example.callum.md_coursework_v1;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
+import android.support.v4.content.ContextCompat;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import android.Manifest;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -21,6 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
     }
 
@@ -38,9 +46,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+       //Set longitude and latitude
+        LatLng presetLocation = new LatLng(55.7591402, -4.1883331);
+        // Add a marker in Scotland, East Kilbride
+        mMap.addMarker(new MarkerOptions().position(presetLocation).title("You are here!"));
+        //move camera to location
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(presetLocation));
+        //zoom camera in on location
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        }
     }
-}
