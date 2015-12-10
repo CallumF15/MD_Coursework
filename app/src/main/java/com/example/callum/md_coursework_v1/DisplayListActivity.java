@@ -1,27 +1,26 @@
 package com.example.callum.md_coursework_v1;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 
 public class DisplayListActivity extends AppCompatActivity {
 
     List<String> stringArray, titleArray, descArray, linkArray;
     String title = null;
+
+    private static LayoutInflater inflater=null;
 
     TextView newsFeedText;
 
@@ -57,19 +56,19 @@ public class DisplayListActivity extends AppCompatActivity {
             stringArray = parserRSS.execute().get();
         }catch(Exception e){}
 
-        //Separate the XML data to only get Title text
-        for(int i = 0; i < stringArray.size(); i+= 3){
-            title = stringArray.get(i);
-            titleArray.add(title);
-        }
+        ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+
+            for(int i = 0; i < stringArray.size(); i+= 3) {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("subjecttitle", stringArray.get(i));
+                songsList.add(map);
+            }
 
         final ListView topicsListView = (ListView) findViewById(R.id.topicsListView);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, titleArray);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+
+        LazyAdapter adapter;
+        // Getting adapter by passing xml data ArrayList
+        adapter=new LazyAdapter(this, songsList);
         topicsListView.setAdapter(adapter);
 
         //Setup click event
@@ -131,5 +130,14 @@ public class DisplayListActivity extends AppCompatActivity {
         }
 
         return urlSite;
+    }
+
+    public String blahhhh() {
+        String blah = "";
+        for(int i = 0; i < stringArray.size(); i+= 3) {
+            blah = stringArray.get(i);
+            return blah;
+        }
+        return blah;
     }
 }
