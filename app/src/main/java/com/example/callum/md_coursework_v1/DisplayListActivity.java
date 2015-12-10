@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DisplayListActivity extends AppCompatActivity {
 
-    List<String> stringArray, titleArray, descArray, linkArray;
+    List<String> stringArray, titleArray, descArray, linkArray, pubDateArray;
     String title = null;
 
     private static LayoutInflater inflater=null;
@@ -50,6 +50,7 @@ public class DisplayListActivity extends AppCompatActivity {
         titleArray = new ArrayList<String>();
         descArray = new ArrayList<String>();
         linkArray = new ArrayList<String>();
+        pubDateArray = new ArrayList<String>();
 
         //get array data
         try {
@@ -58,11 +59,27 @@ public class DisplayListActivity extends AppCompatActivity {
 
         ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
 
-            for(int i = 0; i < stringArray.size(); i+= 3) {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("subjecttitle", stringArray.get(i));
-                songsList.add(map);
-            }
+        for(int i = 0; i < stringArray.size(); i+= 4){
+            titleArray.add(stringArray.get(i));
+        }
+
+        for(int i = 3; i < stringArray.size(); i+= 4) {
+            pubDateArray.add(stringArray.get(i));
+        }
+
+        int incrementer = 0;
+
+        while(incrementer < titleArray.size() && incrementer < pubDateArray.size()){
+
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("subjecttitle", titleArray.get(incrementer));
+            map.put("pubdate", pubDateArray.get(incrementer));
+            songsList.add(map);
+            
+            incrementer++;
+        }
+
+
 
         final ListView topicsListView = (ListView) findViewById(R.id.topicsListView);
 
@@ -75,8 +92,7 @@ public class DisplayListActivity extends AppCompatActivity {
         topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-
+                //take to new layout using title, description, image, title
             }
         });
     }
@@ -134,7 +150,7 @@ public class DisplayListActivity extends AppCompatActivity {
 
     public String blahhhh() {
         String blah = "";
-        for(int i = 0; i < stringArray.size(); i+= 3) {
+        for(int i = 0; i < stringArray.size(); i+= 4) {
             blah = stringArray.get(i);
             return blah;
         }
