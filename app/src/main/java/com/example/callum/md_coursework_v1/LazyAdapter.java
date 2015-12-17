@@ -62,8 +62,9 @@ public class LazyAdapter extends BaseAdapter {
         title.setText(song.get("subjecttitle"));
         pubDate.setText(song.get("pubdate"));
 
+        //update imageview based on position in listview
         thumb_image.setImageBitmap(bitmapList.get(position));
-        
+
         return vi;
     }
 }
