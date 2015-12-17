@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class LazyAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater=null;
+    List<Bitmap> bitmapList;
+    int incrementer = 0;
     //public ImageLoader imageLoader;
 
     public LazyAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
@@ -25,6 +28,10 @@ public class LazyAdapter extends BaseAdapter {
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //imageLoader=new ImageLoader(activity.getApplicationContext());
+    }
+
+    public void setMap (List<Bitmap> bmList){
+        bitmapList = bmList;
     }
 
     public int getCount() {
@@ -45,6 +52,7 @@ public class LazyAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.list_row, null);
 
         TextView title = (TextView)vi.findViewById(R.id.subjecttitle); // title
+        TextView pubDate = (TextView)vi.findViewById(R.id.pubDate);
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
 
         HashMap<String, String> song = new HashMap<String, String>();
@@ -52,7 +60,10 @@ public class LazyAdapter extends BaseAdapter {
 
 
         title.setText(song.get("subjecttitle"));
+        pubDate.setText(song.get("pubdate"));
 
+        thumb_image.setImageBitmap(bitmapList.get(position));
+        
         return vi;
     }
 }
