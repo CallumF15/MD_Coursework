@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="5dip">
 
     <!--  ListRow Left sied Thumbnail image -->
     <LinearLayout android:id="@+id/thumbnail"
@@ -23,47 +23,38 @@
 
     </LinearLayout>
 
-    <!-- Title Of Song-->
+    <!-- Rightend Publication Date -->
     <TextView
-        android:id="@+id/subjecttitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Rihanna Love the way lie"
-        android:textColor="#040404"
-        android:typeface="sans"
-        android:textSize="15dip"
-        android:textStyle="bold"/>
-
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/artist"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subjecttitle"
-        android:textColor="#343434"
-        android:textSize="10dip"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Just gona stand there and ..." />
-
-    <!-- Rightend Duration -->
-    <TextView
-        android:id="@+id/duration"
+        android:id="@+id/pubDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/subjecttitle"
         android:gravity="right"
         android:text="5:45"
         android:layout_marginRight="5dip"
         android:textSize="10dip"
         android:textColor="#10bcc9"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
+    <!-- Title Of Song-->
+    <TextView
+        android:id="@+id/subjecttitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pubDate"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toLeftOf="@id/pubDate"
+        android:text="Rihanna Love the way l l l l testtttttttttttttttttttttttt
+        tttttttttttttttttttt"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="10dip"
+        android:textStyle="bold" />
+
 
     <!-- Rightend Arrow -->
     <ImageView android:layout_width="wrap_content"
+        android:id="@+id/clickIcon"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_back"
         android:layout_alignParentRight="true"

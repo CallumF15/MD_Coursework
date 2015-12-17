@@ -58,7 +58,7 @@ public class LazyAdapter extends BaseAdapter {
         HashMap<String, String> song = new HashMap<String, String>();
         song = data.get(position);
 
-
+        //gets title data from hashmap array
         title.setText(song.get("subjecttitle"));
         pubDate.setText(song.get("pubdate"));
 

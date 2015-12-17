@@ -2,6 +2,7 @@ package com.example.callum.md_coursework_v1;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class DisplayListActivity extends AppCompatActivity {
 
-    List<String> stringArray, titleArray, descArray, linkArray, pubDateArray;
+    List<String> stringArray, titleArray, linkArray, pubDateArray;
     String title = null;
 
     private static LayoutInflater inflater=null;
@@ -43,14 +44,13 @@ public class DisplayListActivity extends AppCompatActivity {
         //Check Item Selected & Assign appropriate URL
         ParserRSS parserRSS = new ParserRSS(AssignAppropriateURL(getItemSelected));
         //set number of data to parse/display
-        parserRSS.setLimit(20);
+        parserRSS.setLimit(10);
 
         //initialize arrays
         stringArray = new ArrayList<String>();
         titleArray = new ArrayList<String>();
-        descArray = new ArrayList<String>();
-        linkArray = new ArrayList<String>();
         pubDateArray = new ArrayList<String>();
+        linkArray = new ArrayList<String>();
 
         //get array data
         try {
@@ -59,23 +59,37 @@ public class DisplayListActivity extends AppCompatActivity {
 
         ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
 
-        for(int i = 0; i < stringArray.size(); i+= 4){
+        for(int i = 0; i < stringArray.size(); i+= 5){
             titleArray.add(stringArray.get(i));
         }
 
-        for(int i = 3; i < stringArray.size(); i+= 4) {
+        for(int i = 3; i < stringArray.size(); i+= 5) {
             pubDateArray.add(stringArray.get(i));
         }
 
-        int incrementer = 0;
 
+
+        List<Bitmap> bmList = new ArrayList<>();
+
+        for(int i = 4; i < stringArray.size(); i+= 5) {
+            //Use LinkArray Urls to retrieve image data
+            ImageLoaderURL imageLoader = new ImageLoaderURL(stringArray.get(i));
+
+            try {
+                bmList.add(imageLoader.execute().get());
+            }catch(Exception e){}
+        }
+
+        int incrementer = 0;
         while(incrementer < titleArray.size() && incrementer < pubDateArray.size()){
 
             HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, Bitmap> bitMap = new HashMap<>();
             map.put("subjecttitle", titleArray.get(incrementer));
             map.put("pubdate", pubDateArray.get(incrementer));
+
             songsList.add(map);
-            
+
             incrementer++;
         }
 
@@ -86,13 +100,14 @@ public class DisplayListActivity extends AppCompatActivity {
         LazyAdapter adapter;
         // Getting adapter by passing xml data ArrayList
         adapter=new LazyAdapter(this, songsList);
+        adapter.setMap(bmList);
         topicsListView.setAdapter(adapter);
 
         //Setup click event
         topicsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                //take to new layout using title, description, image, title
+                //take to new layout using title, image
             }
         });
     }
@@ -149,11 +164,13 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     public String blahhhh() {
-        String blah = "";
-        for(int i = 0; i < stringArray.size(); i+= 4) {
-            blah = stringArray.get(i);
-            return blah;
+
+        String textHolder = "";
+
+        for(int i = 0; i < stringArray.size(); i+= 5) {
+            textHolder = stringArray.get(i);
+            return textHolder;
         }
-        return blah;
+        return textHolder;
     }
 }

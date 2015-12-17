@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -23,9 +24,10 @@ import javax.xml.parsers.SAXParserFactory;
 public class ParserRSS extends AsyncTask<String, Void, List<String>>{
 
     //Variables
-    private String title = "title";
-    private String link = "link";
-    private String description = "description";
+    private String title;
+    private String link;
+    private String description;
+    private String publicationDate;
     private String urlSite;
 
     public int limit;
@@ -93,6 +95,10 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>>{
 
                 String name = myParser.getName();
 
+                if(counter == 9){
+                    String test = "";
+                }
+
                 switch (eventType) {
 
                     case XmlPullParser.START_TAG:
@@ -107,6 +113,12 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>>{
                         } else if (name.equalsIgnoreCase("description")) {
                             description = myParser.nextText();
                             stringList.add(description);
+                        } else if(name.equalsIgnoreCase("pubDate")) {
+                            publicationDate = myParser.nextText();
+                            stringList.add(publicationDate);
+                        }else if(name.equalsIgnoreCase("media:content")){
+                           urlSite =  myParser.getAttributeValue(null, "url");
+                            stringList.add(urlSite);
                         }
                         break;
 
@@ -159,9 +171,5 @@ public class ParserRSS extends AsyncTask<String, Void, List<String>>{
         } catch (Exception e) {
             Log.e("myTag", e.toString());
         }
-    }
-
-    public void blah() {
-
     }
 }
