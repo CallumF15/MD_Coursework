@@ -27,10 +27,9 @@
     </LinearLayout>  <!-- layout at the top of the page -->
 
 
-
     <LinearLayout
         android:id="@+id/layout_bottom"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#7c7dc0"
         android:layout_below="@+id/layout_top"> <!-- moves layout underneath the centre layout -->

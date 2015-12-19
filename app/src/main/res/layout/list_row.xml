@@ -44,8 +44,7 @@
         android:layout_below="@id/pubDate"
         android:layout_toRightOf="@+id/thumbnail"
         android:layout_toLeftOf="@id/pubDate"
-        android:text="Rihanna Love the way l l l l testtttttttttttttttttttttttt
-        tttttttttttttttttttt"
+        android:text="test position"
         android:textColor="#040404"
         android:typeface="sans"
         android:textSize="10dip"

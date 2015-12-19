@@ -158,4 +158,33 @@ public class QueryDatabase extends SQLiteOpenHelper {
         // return subject list
         return subjectList;
     }
+
+    public List<NewSubject> getAllNewSubjects() {
+        List<NewSubject> subjectList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + COL_TABLE_NAME;
+
+        try {
+            createDatabase();
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    NewSubject newSubject = new NewSubject();
+                    newSubject.setSubject_id(Integer.parseInt(cursor.getString(0)));
+                    newSubject.setSubject_name(cursor.getString(1));
+                    // Adding contact to list
+                    subjectList.add(newSubject);
+                } while (cursor.moveToNext());
+            }
+        } catch (IOException e) {
+            Log.e("CursorException", "Error getting data");
+        }
+
+        // return subject list
+        return subjectList;
+    }
 }
