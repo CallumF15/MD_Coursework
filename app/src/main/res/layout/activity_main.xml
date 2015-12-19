@@ -22,7 +22,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/select_category"
             android:id="@+id/textView"
-            android:textSize="20sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 

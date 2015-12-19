@@ -4,6 +4,7 @@ package com.example.callum.md_coursework_v1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
@@ -56,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
         subjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+
+                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.beep);
+                mp.start();
+
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
 
                 //Get item selected from list
                 NewSubject getSubject = (NewSubject)subjectListView.getItemAtPosition(position);

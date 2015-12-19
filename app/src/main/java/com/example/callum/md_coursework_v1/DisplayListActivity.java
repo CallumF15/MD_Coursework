@@ -4,9 +4,12 @@ package com.example.callum.md_coursework_v1;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,11 +21,11 @@ import java.util.List;
 
 public class DisplayListActivity extends AppCompatActivity {
 
+    FragmentManager fragmentManager;
     List<String> stringArray, titleArray, linkArray, pubDateArray;
     String title = null;
 
     private static LayoutInflater inflater=null;
-
     TextView newsFeedText;
 
     @Override
@@ -31,6 +34,7 @@ public class DisplayListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_list);
 
 
+        fragmentManager = this.getSupportFragmentManager();
 
         //get other activity data
         Intent intent = getIntent();
@@ -66,8 +70,6 @@ public class DisplayListActivity extends AppCompatActivity {
         for(int i = 3; i < stringArray.size(); i+= 5) {
             pubDateArray.add(stringArray.get(i));
         }
-
-
 
         List<Bitmap> bmList = new ArrayList<>();
 
@@ -119,6 +121,30 @@ public class DisplayListActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.map:
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                //Start new activity
+                startActivity(intent);
+                return true;
+            case R.id.about:
+                //create instance of dialog fragment
+                DialogFragment dialogFragment = new MainAboutDialogue();
+                //display text box for about
+                dialogFragment.show(fragmentManager, "");
+                return true;
+            case R.id.quit:
+                //exit/end application
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     //Item Selected from ListView is checked and the appropriate url is assigned
     //Retrieve the information
     public String AssignAppropriateURL(String selectedItem) {
@@ -161,16 +187,5 @@ public class DisplayListActivity extends AppCompatActivity {
         }
 
         return urlSite;
-    }
-
-    public String blahhhh() {
-
-        String textHolder = "";
-
-        for(int i = 0; i < stringArray.size(); i+= 5) {
-            textHolder = stringArray.get(i);
-            return textHolder;
-        }
-        return textHolder;
     }
 }

@@ -32,31 +32,21 @@
         android:gravity="right"
         android:text="5:45"
         android:layout_marginRight="5dip"
-        android:textSize="10dip"
+        android:textSize="10sp"
         android:textColor="#10bcc9"
         android:textStyle="bold" />
 
-    <!-- Title Of Song-->
+    <!-- Title Of News Subject-->
     <TextView
         android:id="@+id/subjecttitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pubDate"
         android:layout_toRightOf="@+id/thumbnail"
-        android:layout_toLeftOf="@id/pubDate"
         android:text="test position"
         android:textColor="#040404"
         android:typeface="sans"
-        android:textSize="10dip"
+        android:textSize="10sp"
         android:textStyle="bold" />
-
-
-    <!-- Rightend Arrow -->
-    <ImageView android:layout_width="wrap_content"
-        android:id="@+id/clickIcon"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_back"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

@@ -14,7 +14,7 @@ public class MainAboutDialogue extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder aboutDialog = new AlertDialog.Builder(getActivity());
-        aboutDialog.setMessage("This App will display news your interested in")
+        aboutDialog.setMessage("This App will display relevant News depending on the topic you've chosen ")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
