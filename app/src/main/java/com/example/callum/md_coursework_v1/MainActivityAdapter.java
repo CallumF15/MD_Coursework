@@ -26,11 +26,12 @@ public class MainActivityAdapter extends ArrayAdapter<NewSubject> {
     public MainActivityAdapter(Context context, List<NewSubject> newSubjects){
         super(context, R.layout.product_list_item, newSubjects);
 
-        this.context = context;
+        this.context = context; //assign variable
         this.newSubjects = newSubjects;
-        savedPreference = new SavePreferences();
+        savedPreference = new SavePreferences(); //initialize variable
     }
 
+    //Holds our View Objects
     private class ViewHolder{
         TextView subjectName;
         ImageView favouriteImg;
@@ -57,24 +58,24 @@ public class MainActivityAdapter extends ArrayAdapter<NewSubject> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             vi = inflater.inflate(R.layout.product_list_item, null);
 
-            holder = new ViewHolder();
-            holder.subjectName = (TextView) vi.findViewById(R.id.txt_newsubname);
+            holder = new ViewHolder(); //initialize ViewHolder
+            holder.subjectName = (TextView) vi.findViewById(R.id.txt_newsubname); //find our view objects
             holder.favouriteImg = (ImageView) vi.findViewById(R.id.img_favourite);
 
-            vi.setTag(holder);
+            vi.setTag(holder);  //save our holder objects into memory
         } else {
-            holder = (ViewHolder) vi.getTag();
+            holder = (ViewHolder) vi.getTag();  //get our holder objects from memory
         }
-        NewSubject subject = (NewSubject) getItem(position);
-        holder.subjectName.setText(subject.getSubject_name());
+        NewSubject subject = (NewSubject) getItem(position);  //get subject at specified posiiton
+        holder.subjectName.setText(subject.getSubject_name()); //set text of TextView to subject name
 
 
-        if (checkFavoriteItem(subject)) {
-            holder.favouriteImg.setImageResource(R.drawable.ic_action_favorite);
-            holder.favouriteImg.setTag("red");
+        if (checkFavoriteItem(subject)) { //check if item is favourited
+            holder.favouriteImg.setImageResource(R.drawable.ic_action_favorite); //changes image if topic is favourited
+            holder.favouriteImg.setTag("red"); //sets tag text red for reference purposes
         } else {
-            holder.favouriteImg.setImageResource(R.drawable.ic_action_favorite_light);
-            holder.favouriteImg.setTag("grey");
+            holder.favouriteImg.setImageResource(R.drawable.ic_action_favorite_light); //changes image if topic is un-favourited
+            holder.favouriteImg.setTag("grey"); //sets tag text grey for reference purposes
         }
         return vi;
     }
@@ -82,11 +83,11 @@ public class MainActivityAdapter extends ArrayAdapter<NewSubject> {
     /*Checks whether a particular subject exists in SharedPreferences*/
     public boolean checkFavoriteItem(NewSubject checkSubject) {
         boolean check = false;
-        List<NewSubject> favorites = savedPreference.getFavorites(context);
+        List<NewSubject> favorites = savedPreference.getFavorites(context); //get saved shared preferences
         if (favorites != null) {
-            for (NewSubject subject : favorites) {
-                if (subject.getSubject_name().equals(checkSubject.getSubject_name())) {
-                    check = true;
+            for (NewSubject subject : favorites) { ///check each object in list
+                if (subject.getSubject_name().equals(checkSubject.getSubject_name())) { //check if object already in list
+                    check = true; //return true if object is in list.
                     break;
                 }
             }
@@ -96,15 +97,15 @@ public class MainActivityAdapter extends ArrayAdapter<NewSubject> {
 
     @Override
     public void add(NewSubject subject) {
-        super.add(subject);
-        newSubjects.add(subject);
-        notifyDataSetChanged();
+        super.add(subject);  //adds object to super
+        newSubjects.add(subject); //adds object to list
+        notifyDataSetChanged();  //notifies if any change to object
     }
 
     @Override
     public void remove(NewSubject subject) {
-        super.remove(subject);
-        newSubjects.remove(subject);
-        notifyDataSetChanged();
+        super.remove(subject); //removes object from super
+        newSubjects.remove(subject); //removes object from list
+        notifyDataSetChanged();  //notifies if any change to object
     }
 }
