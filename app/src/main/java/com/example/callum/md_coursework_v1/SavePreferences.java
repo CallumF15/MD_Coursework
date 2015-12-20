@@ -27,14 +27,19 @@ public class SavePreferences {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
+        //get our data from file for modifying
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        //allow edit
         editor = settings.edit();
 
+        //initialize object
         Gson gson = new Gson();
+        //deserialize favourites
         String jsonFavorites = gson.toJson(favorites);
 
         editor.putString(FAVORITES, jsonFavorites);
 
+        //commit changes
         editor.commit();
     }
 
@@ -49,7 +54,10 @@ public class SavePreferences {
     public void removeFavorite(Context context, NewSubject subject) {
         ArrayList<NewSubject> favorites = getFavorites(context);
         if (favorites != null) {
-            favorites.remove(subject);
+            for(int i = 0; i < favorites.size(); i++){
+                if(favorites.get(i).getSubject_id() == subject.getSubject_id())
+                   favorites.remove(i);
+            }
             saveFavorites(context, favorites);
         }
     }
@@ -61,7 +69,6 @@ public class SavePreferences {
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         if (settings.contains(FAVORITES)) {
-            String favorite = settings.getString(FAVORITES, null);
 
             String jsonFavorites = settings.getString(FAVORITES, null);
             Gson gson = new Gson();
