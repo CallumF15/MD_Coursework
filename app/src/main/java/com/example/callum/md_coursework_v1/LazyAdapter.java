@@ -21,44 +21,42 @@ public class LazyAdapter extends BaseAdapter {
     private static LayoutInflater inflater=null;
     List<Bitmap> bitmapList;
     int incrementer = 0;
-    //public ImageLoader imageLoader;
 
     public LazyAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //imageLoader=new ImageLoader(activity.getApplicationContext());
     }
 
     public void setMap (List<Bitmap> bmList){
-        bitmapList = bmList;
+        bitmapList = bmList; //assign the list object
     }
 
     public int getCount() {
-        return data.size();
+        return data.size(); //return size of collection
     }
 
     public Object getItem(int position) {
-        return position;
+        return position; //get the item at specified position
     }
 
     public long getItemId(int position) {
-        return position;
+        return position; //get item at specified position
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
-            vi = inflater.inflate(R.layout.list_row, null);
+            vi = inflater.inflate(R.layout.list_row, null); //create your View from your XML file.
 
-        TextView title = (TextView)vi.findViewById(R.id.subjecttitle); // title
-        TextView pubDate = (TextView)vi.findViewById(R.id.pubDate);
-        ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
+        TextView title = (TextView)vi.findViewById(R.id.subjecttitle); // find our view and assign
+        TextView pubDate = (TextView)vi.findViewById(R.id.pubDate); // find our view and assign
+        ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // find our view and assign
 
-        HashMap<String, String> song = new HashMap<String, String>();
-        song = data.get(position);
+        HashMap<String, String> song = new HashMap<String, String>(); //initialize hashmap
+        song = data.get(position); //get data at specified position in arraylist hashmap
 
-        //gets title data from hashmap array
+        //gets title data from hashmap array and sets text
         title.setText(song.get("subjecttitle"));
         pubDate.setText(song.get("pubdate"));
 

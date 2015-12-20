@@ -21,6 +21,7 @@ import java.util.List;
 
 public class DisplayListActivity extends AppCompatActivity {
 
+    //variables
     FragmentManager fragmentManager;
     List<String> stringArray, titleArray, linkArray, pubDateArray;
     String title = null;
@@ -33,7 +34,7 @@ public class DisplayListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list);
 
-
+        //get the FragmentManager for interacting with fragments associated with this activity.
         fragmentManager = this.getSupportFragmentManager();
 
         //get other activity data
@@ -41,8 +42,8 @@ public class DisplayListActivity extends AppCompatActivity {
         //retrieve selection data from intent
         String getItemSelected = intent.getStringExtra("ItemSelected");
 
-        newsFeedText = (TextView)findViewById(R.id.NewsFeedText);
-        newsFeedText.setText("News Feed " + getItemSelected );
+        newsFeedText = (TextView)findViewById(R.id.NewsFeedText); //find our view object and assign
+        newsFeedText.setText("News Feed " + getItemSelected ); //set text of view object
 
 
         //Check Item Selected & Assign appropriate URL
@@ -64,45 +65,47 @@ public class DisplayListActivity extends AppCompatActivity {
         ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
 
         for(int i = 0; i < stringArray.size(); i+= 5){
-            titleArray.add(stringArray.get(i));
+            titleArray.add(stringArray.get(i)); //find our titles in array and add to new array
         }
 
         for(int i = 3; i < stringArray.size(); i+= 5) {
-            pubDateArray.add(stringArray.get(i));
+            pubDateArray.add(stringArray.get(i)); //find our publication dates in array and add to new array
         }
 
         List<Bitmap> bmList = new ArrayList<>();
 
         for(int i = 4; i < stringArray.size(); i+= 5) {
             //Use LinkArray Urls to retrieve image data
-            ImageLoaderURL imageLoader = new ImageLoaderURL(stringArray.get(i));
+            ImageLoaderURL imageLoader = new ImageLoaderURL(stringArray.get(i)); //find our bitmap urls and pass to constructor
 
             try {
-                bmList.add(imageLoader.execute().get());
+                bmList.add(imageLoader.execute().get()); //add bitmaps to list
             }catch(Exception e){}
         }
 
         int incrementer = 0;
-        while(incrementer < titleArray.size() && incrementer < pubDateArray.size()){
+        while(incrementer < titleArray.size() && incrementer < pubDateArray.size()){ //make sure incrementer doesn't exceed array size
 
             HashMap<String, String> map = new HashMap<String, String>();
             HashMap<String, Bitmap> bitMap = new HashMap<>();
-            map.put("subjecttitle", titleArray.get(incrementer));
-            map.put("pubdate", pubDateArray.get(incrementer));
+            map.put("subjecttitle", titleArray.get(incrementer)); //add list object to hashmap with key name
+            map.put("pubdate", pubDateArray.get(incrementer));  //add list object to hashmap with key name
 
-            songsList.add(map);
+            songsList.add(map);  //add map object to arraylist hashmap
 
             incrementer++;
         }
 
 
 
-        final ListView topicsListView = (ListView) findViewById(R.id.topicsListView);
+        final ListView topicsListView = (ListView) findViewById(R.id.topicsListView); //find our view object and assign
 
         LazyAdapter adapter;
         // Getting adapter by passing xml data ArrayList
         adapter=new LazyAdapter(this, songsList);
+        //set the bitmap list
         adapter.setMap(bmList);
+        //set the adapter
         topicsListView.setAdapter(adapter);
 
         //Setup click event

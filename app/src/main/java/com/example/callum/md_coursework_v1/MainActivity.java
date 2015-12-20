@@ -2,8 +2,6 @@ package com.example.callum.md_coursework_v1;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
@@ -14,21 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
 
     Activity activity;
     FragmentManager fragmentManager;
-    List<Boolean> favouriteList;
     SavePreferences savePreference;
     MainActivityAdapter mainActivityAdapter;
     List<NewSubject> listofSubjects;
@@ -38,18 +31,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        activity = this;
-        savePreference = new SavePreferences();
+        activity = this;  //assign activity to this activity
+        savePreference = new SavePreferences(); //initialize object
 
+        //initialize object and pass values
         QueryDatabase queryDatabase = new QueryDatabase(this, "NewsSubjects.s3db", null, 1);
 
-
+        //find our view
         final ListView subjectListView = (ListView) findViewById(R.id.subjectListView);
 
         fragmentManager = this.getSupportFragmentManager();
 
+        //get our news subject from database
         listofSubjects = queryDatabase.getAllNewSubjects();
+        //initialise our adapter and pass list of news topics
         final MainActivityAdapter productListAdapter = new MainActivityAdapter(this, listofSubjects);
+        //set our adapter
         subjectListView.setAdapter(productListAdapter);
 
 
@@ -58,14 +55,17 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
+                //initalize our media player with sound file
                 MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.beep);
+                //play sound
                 mp.start();
 
+                //check for when sound is finished
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        mp.stop();
-                        mp.release();
+                        mp.stop(); //stop found
+                        mp.release(); //release from memory
                     }
                 });
 
@@ -85,21 +85,29 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                            int pos, long arg3) {
 
+                //find our view object
                 ImageView button = (ImageView) view.findViewById(R.id.img_favourite);
 
-                //Determine if listview item selected is favourited, if not, favourite, if is, un-favourite.
+                //get button tag object and convert to string
                 String tag = button.getTag().toString();
-                if (tag.equalsIgnoreCase("grey")) {
+                if (tag.equalsIgnoreCase("grey")) {   //Determine if listview item selected is favourited, if not, favourite, if is, un-favourite.
+                    //add favourited item to method to be saved
                     savePreference.addFavorite(activity, listofSubjects.get(pos));
+                    //display text to signify favourite added
                     Toast.makeText(activity, "favourite added", Toast.LENGTH_SHORT).show();
 
+                    //change tag to signify favourited
                     button.setTag("red");
+                    //change image to signify favourited
                     button.setImageResource(R.drawable.ic_action_favorite);
                 } else {
+                    //remove favourited item to method to be saved
                     savePreference.removeFavorite(activity, listofSubjects.get(pos));
+                    //change tag to signify un-favourited
                     button.setTag("grey");
+                    //change image to signify un-favourited
                     button.setImageResource(R.drawable.ic_action_favorite_light);
-                    //productListAdapter.remove(listofSubjects.get(pos));
+                    //display text to signify un-favourite added
                     Toast.makeText(activity, "favourite removed", Toast.LENGTH_SHORT).show();
                 }
 
@@ -121,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.map:
+                //initialize new intent
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 //Start new activity
                 startActivity(intent);

@@ -73,10 +73,10 @@ public class ImageLoaderURL extends AsyncTask<String, Void, Bitmap> {
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
+        int width = bm.getWidth();  //assign bitmap width
+        int height = bm.getHeight(); //assign bitmap height
+        float scaleWidth = ((float) newWidth) / width;  //calculate scale width
+        float scaleHeight = ((float) newHeight) / height; //calculate scale height
         // CREATE A MATRIX FOR THE MANIPULATION
         Matrix matrix = new Matrix();
         // RESIZE THE BIT MAP

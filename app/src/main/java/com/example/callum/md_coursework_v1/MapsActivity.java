@@ -90,19 +90,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public View getInfoContents(Marker marker) {
 
+                //initialize new layout
                 LinearLayout info = new LinearLayout(context);
+                //set layout orientation
                 info.setOrientation(LinearLayout.VERTICAL);
 
+                //set title to context
                 TextView title = new TextView(context);
+                //set text color
                 title.setTextColor(Color.BLACK);
+                //set text gravity
                 title.setGravity(Gravity.CENTER);
+                //set text typeface
                 title.setTypeface(null, Typeface.BOLD);
+                //set text
                 title.setText(marker.getTitle());
 
+                //initialize textview object with context
                 TextView snippet = new TextView(context);
+                //set color of snippet text
                 snippet.setTextColor(Color.GRAY);
+                //set snippet text
                 snippet.setText(marker.getSnippet());
 
+                //add title and snippet to view
                 info.addView(title);
                 info.addView(snippet);
 
@@ -115,9 +126,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //zoom camera in on location
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
+        //listen for map click
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                //add a marker at location of click
                 mMap.addMarker(new MarkerOptions().position(latLng).title("Distance between marker 1 and this marker is: ")
                         .snippet(CalculationByDistance(presetLocation, latLng) + "km")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
@@ -126,6 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    //calculates distance between two points on the map
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
 
         int Radius = 6371;// radius of earth in Km
@@ -133,7 +147,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double lat2 = EndP.latitude;
         double lon1 = StartP.longitude;
         double lon2 = EndP.longitude;
+        //calculate distance latitude between point A and B
         double dLat = Math.toRadians(lat2 - lat1);
+        //calculate distance longitude between point A and B
         double dLon = Math.toRadians(lon2 - lon1);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
                 + Math.cos(Math.toRadians(lat1))

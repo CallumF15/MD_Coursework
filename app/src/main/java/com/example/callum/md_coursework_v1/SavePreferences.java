@@ -23,7 +23,8 @@ public class SavePreferences {
     }
 
     // This four methods are used for maintaining favorites.
-    public void saveFavorites(Context context, List<NewSubject> favorites) {
+    public void saveFavorites(Context context, List<NewSubject> favorites)
+    {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
@@ -34,30 +35,39 @@ public class SavePreferences {
 
         //initialize object
         Gson gson = new Gson();
-        //deserialize favourites
+        //serializes favourites
         String jsonFavorites = gson.toJson(favorites);
-
+        //Set a String value in the preferences editor
         editor.putString(FAVORITES, jsonFavorites);
 
         //commit changes
         editor.commit();
     }
 
+    //adds an item that has been favourited to memory
     public void addFavorite(Context context, NewSubject subject) {
+        //get favourites from memory
         List<NewSubject> favorites = getFavorites(context);
+
         if (favorites == null)
-            favorites = new ArrayList<NewSubject>();
+            favorites = new ArrayList<NewSubject>(); //initialize new arraylist
+
+        //add favourited item to list
         favorites.add(subject);
+        //save favourited item to memory
         saveFavorites(context, favorites);
     }
 
+    //removes an item that has been favourited from memory
     public void removeFavorite(Context context, NewSubject subject) {
-        ArrayList<NewSubject> favorites = getFavorites(context);
+        ArrayList<NewSubject> favorites = getFavorites(context); //get favourites from memory
         if (favorites != null) {
             for(int i = 0; i < favorites.size(); i++){
-                if(favorites.get(i).getSubject_id() == subject.getSubject_id())
+                if(favorites.get(i).getSubject_id() == subject.getSubject_id()) //check if the id of subject match
+                    //remove the item from favourites
                    favorites.remove(i);
             }
+            //save changes to favourites
             saveFavorites(context, favorites);
         }
     }
@@ -66,15 +76,18 @@ public class SavePreferences {
         SharedPreferences settings;
         List<NewSubject> favorites = null;
 
+        //Retrieve and hold the contents of the preferences
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        if (settings.contains(FAVORITES)) {
+        if (settings.contains(FAVORITES)) { //if settings contains string value
 
             String jsonFavorites = settings.getString(FAVORITES, null);
-            Gson gson = new Gson();
+            Gson gson = new Gson(); //initialize class object
+            //deserializes favourited items and puts into array
             NewSubject[] favoriteItems = gson.fromJson(jsonFavorites, NewSubject[].class);
-
+            //convert array to list
             favorites = Arrays.asList(favoriteItems);
+            //initialize list as ArrayList
             favorites = new ArrayList<NewSubject>(favorites);
 
         } else

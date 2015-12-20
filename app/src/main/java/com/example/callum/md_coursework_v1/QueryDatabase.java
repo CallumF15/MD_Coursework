@@ -29,8 +29,6 @@ public class QueryDatabase extends SQLiteOpenHelper {
     public static final String COL_SUBJECT_ID = "subject_id";
     public static final String COL_SUBJECT_NAME = "subject_name";
 
-
-    //private SQLiteDatabase db;
     public final Context appContext;
 
     //Getters & Setters
@@ -40,6 +38,7 @@ public class QueryDatabase extends SQLiteOpenHelper {
             factory, int version){
         super(context, name, factory, version);
 
+        //assign context
         this.appContext = context;
     }
 
@@ -47,7 +46,7 @@ public class QueryDatabase extends SQLiteOpenHelper {
     //Methods
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // SQL statement to create book table
+        // SQL statement to create subject table
         String CREATE_NEWS_SUBJECT_TABLE = "CREATE TABLE IF NOT EXISTS "
                 + COL_TABLE_NAME + " ("
                 + COL_SUBJECT_ID + " INTEGER PRIMARY KEY, "
@@ -67,11 +66,14 @@ public class QueryDatabase extends SQLiteOpenHelper {
         }
     }
 
+    //checks whether database exists and creates one if it doesn't
     public void createDatabase() throws  IOException{
 
+        //check if the database exists
         boolean databaseExist = checkDatabaseExists();
 
-        if(!databaseExist){
+        if(!databaseExist){ //if it doesn't exist
+            //Create and/or open a database.
             this.getReadableDatabase();
 
             try{
@@ -83,14 +85,19 @@ public class QueryDatabase extends SQLiteOpenHelper {
 
     }
 
+    //checks if the database exists
     public boolean checkDatabaseExists(){
 
         SQLiteDatabase db = null;
 
         try{
+            //get the path of the database
             path = appContext.getDatabasePath(DB_NAME).toString();
+            //open the database and assign to variable
             db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+            //sets the locale of this  database
             db.setLocale(Locale.getDefault());
+            //sets the database version
             db.setVersion(1);
 
         }catch(SQLiteException e){
@@ -98,19 +105,23 @@ public class QueryDatabase extends SQLiteOpenHelper {
         }
 
         if(db != null){
+            //closes the database
             db.close();
         }
 
         return db != null ? true:false;
     }
 
+    //Copies the data from the database
     public void copyDatabaseFromAssets() throws  IOException{
 
         InputStream databaseInput = null;
         OutputStream databaseOutput = null;
 
         try{
+            //get the assets from the database
             databaseInput = appContext.getAssets().open(DB_NAME);
+            //create new file output stream by specified path
             databaseOutput = new FileOutputStream(path);
 
             //transfer bytes from databaseInput to databaseOutput
@@ -118,45 +129,19 @@ public class QueryDatabase extends SQLiteOpenHelper {
             int length;
 
             while((length = databaseInput.read(buffer)) > 0){
+                //writes the specified byte to this file output stream.
                 databaseOutput.write(buffer, 0, length);
             }
-            //close the streams
+            //flush the streams
             databaseOutput.flush();
+            //close database output
             databaseOutput.close();
+            //close database input
             databaseInput.close();
 
         }catch (IOException e){
             throw new Error("Problems Copying DB!");
         }
-    }
-
-    public List<String> getAllSubjects() {
-        List<String> subjectList = new ArrayList<>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + COL_TABLE_NAME;
-
-        try {
-            createDatabase();
-
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery(selectQuery, null);
-
-            // looping through all rows and adding to list
-            if (cursor.moveToFirst()) {
-                do {
-                NewSubject newSubject = new NewSubject();
-                //newSubject.setSubject_id(Integer.parseInt(cursor.getString(0)));
-                newSubject.setSubject_name(cursor.getString(1));
-                // Adding contact to list
-                subjectList.add(newSubject.getSubject_name());
-                } while (cursor.moveToNext());
-            }
-        } catch (IOException e) {
-            Log.e("CursorException", "Error getting data");
-        }
-
-        // return subject list
-        return subjectList;
     }
 
     public List<NewSubject> getAllNewSubjects() {
@@ -165,22 +150,26 @@ public class QueryDatabase extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + COL_TABLE_NAME;
 
         try {
+            //create the database
             createDatabase();
-
+            //Allow Create and/or open a database.
             SQLiteDatabase db = this.getReadableDatabase();
+            //Runs the provided SQL and returns a Cursor over the result set.
             Cursor cursor = db.rawQuery(selectQuery, null);
 
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
                     NewSubject newSubject = new NewSubject();
+                    //set subject id
                     newSubject.setSubject_id(Integer.parseInt(cursor.getString(0)));
+                    //set subject name
                     newSubject.setSubject_name(cursor.getString(1));
                     // Adding contact to list
                     subjectList.add(newSubject);
                 } while (cursor.moveToNext());
             }
-        } catch (IOException e) {
+        } catch (IOException e) { //move to next item
             Log.e("CursorException", "Error getting data");
         }
 
